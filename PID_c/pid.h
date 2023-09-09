@@ -110,7 +110,7 @@
 
 /* ------------------------ Public ------------------------- */
 #define _PID_8BIT_PWM_MAX       UINT8_MAX
-#define _PID_SAMPLE_TIME_MS_DEF 100
+#define _PID_SAMPLE_TIME_MS_DEF 500
 
 #ifndef _FALSE
 
@@ -137,7 +137,7 @@
 
 	#elif defined(__GNUC__) && !defined(USE_HAL_DRIVER)  /* Check compiler */
 
-		#define GetTime()   0
+		#define GetTime()   get_time_ms()
 
 	/* ------------------------------------------------------------------ */
 
@@ -252,6 +252,9 @@ void PID_SetSampleTime(PID_TypeDef *uPID, int32_t NewSampleTime);
 double PID_GetKp(PID_TypeDef *uPID);
 double PID_GetKi(PID_TypeDef *uPID);
 double PID_GetKd(PID_TypeDef *uPID);
+
+/* ::::::: Helper Functions ::::::: */
+unsigned int get_time_ms(void);
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ End of the program ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 

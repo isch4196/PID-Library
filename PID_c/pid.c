@@ -18,7 +18,12 @@
 ------------------------------------------------------------------------------
 */
 
+#include <time.h>
 #include "pid.h"
+
+#if DEBUG_PID
+	#include <stdio.h>
+#endif
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 /* ~~~~~~~~~~~~~~~~~ Initialize ~~~~~~~~~~~~~~~~ */
@@ -85,7 +90,9 @@ uint8_t PID_Compute(PID_TypeDef *uPID)
 	/* ~~~~~~~~~~ Calculate time ~~~~~~~~~~ */
 	now        = GetTime();
 	timeChange = (now - uPID->LastTime);
-	
+#if DEBUG_PID
+	printf("timeChange: %u\n", timeChange);
+#endif
 	if (timeChange >= uPID->SampleTime)
 	{
 		/* ..... Compute all the working error variables ..... */
@@ -308,4 +315,18 @@ double PID_GetKi(PID_TypeDef *uPID)
 double PID_GetKd(PID_TypeDef *uPID)
 {
 	return uPID->DispKd;
+}
+
+// Helper Functions
+unsigned int get_time_ms(void)
+{
+    long ms;
+    time_t sec;
+    struct timespec spec;
+
+    clock_gettime(CLOCK_MONOTONIC, &spec);
+    sec = spec.tv_sec;
+    ms = spec.tv_nsec / (1e6);
+    
+    return sec*1e3 + ms;
 }
