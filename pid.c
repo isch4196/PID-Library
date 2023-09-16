@@ -20,7 +20,7 @@
 
 #include <time.h>
 #include "pid.h"
-#include "common.h"
+#include "../common.h"
 
 
 #if DEBUG_PID
